@@ -1,2 +1,3 @@
 structure.lua
 vendor/
+.env
