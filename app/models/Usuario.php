@@ -60,4 +60,33 @@
             $stmt->execute($params);
             return $stmt->fetch(PDO::FETCH_ASSOC) ? true : false;
         }
+        public static function listar($pagina = 1, $porPagina = 10, $busca = '') {
+            $pdo = Database::getConnection();
+            $offset = ($pagina - 1) * $porPagina;
+            $where = '';
+            $params = [];
+            if ($busca) {
+                $where = "WHERE nome LIKE ? OR username LIKE ?";
+                $params[] = '%' . $busca . '%';
+                $params[] = '%' . $busca . '%';
+            }
+            $sql = "SELECT id, nome, username, ativo, criado_em FROM usuarios $where ORDER BY id DESC LIMIT $porPagina OFFSET $offset";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public static function total($busca = '') {
+            $pdo = Database::getConnection();
+            $where = '';
+            $params = [];
+            if ($busca) {
+                $where = "WHERE nome LIKE ? OR username LIKE ?";
+                $params[] = '%' . $busca . '%';
+                $params[] = '%' . $busca . '%';
+            }
+            $sql = "SELECT COUNT(*) FROM usuarios $where";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchColumn();
+        }
     }
