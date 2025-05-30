@@ -24,6 +24,27 @@
         </div>
       </div>
       <div class="field">
+        <label class="label">Filial</label>
+        <div class="control">
+          <div class="select">
+            <select name="filial" required>
+                <option value="SP">São Paulo</option>
+                <option value="BSB">Brasília</option>
+            </select>
+          </div>
+      </div>
+      <div class="field">
+        <label class="label">Nível de Acesso</label>
+        <div class="control">
+          <div class="select">
+            <select name="tipo" required>
+                <option value="comum">Orçamentista</option>
+                <option value="admin">Administrador</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
         <label class="checkbox">
           <input type="checkbox" name="ativo" checked>
           Ativo
