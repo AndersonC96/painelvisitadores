@@ -10,6 +10,7 @@
       <a class="navbar-item" href="/profissionais">Profissionais</a>
       <a class="navbar-item" href="/representantes">Representantes</a>
       <a class="navbar-item" href="/auditoria">Auditoria</a>
+      <a class="navbar-item" href="/usuarios">Usuários</a>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
