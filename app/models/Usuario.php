@@ -1,13 +1,50 @@
 <?php
     namespace App\Models;
     use App\Core\Database;
-    use PDO;
+    use PDO;  
     class Usuario {
-        public static function buscarPorUsername($username) {
+        public static function listar() {
             $pdo = Database::getConnection();
-            $sql = "SELECT * FROM usuarios WHERE username = :username AND ativo = 1 LIMIT 1";
+            $sql = "SELECT id, nome, username, ativo, criado_em FROM usuarios";
+            return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public static function buscarPorId($id) {
+            $pdo = Database::getConnection();
+            $sql = "SELECT id, nome, username, ativo FROM usuarios WHERE id = ?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(['username' => $username]);
+            $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        public static function criar($dados) {
+            $pdo = Database::getConnection();
+            $sql = "INSERT INTO usuarios (nome, username, senha, ativo) VALUES (?, ?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute([
+                $dados['nome'],
+                $dados['username'],
+                password_hash($dados['senha'], PASSWORD_BCRYPT),
+                $dados['ativo'] ?? 1
+            ]);
+        }
+        public static function atualizar($id, $dados) {
+            $pdo = Database::getConnection();
+            $campos = ['nome = ?', 'username = ?'];
+            $params = [$dados['nome'], $dados['username']];
+            if (!empty($dados['senha'])) {
+                $campos[] = 'senha = ?';
+                $params[] = password_hash($dados['senha'], PASSWORD_BCRYPT);
+            }
+            $campos[] = 'ativo = ?';
+            $params[] = $dados['ativo'] ?? 1;  
+            $params[] = $id;
+            $sql = "UPDATE usuarios SET " . implode(', ', $campos) . " WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute($params);
+        }
+        public static function excluir($id) {
+            $pdo = Database::getConnection();
+            $sql = "DELETE FROM usuarios WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            return $stmt->execute([$id]);
         }
     }
