@@ -3,11 +3,6 @@
     use App\Core\Database;
     use PDO;
     class Usuario {
-        public static function listar() {
-            $pdo = Database::getConnection();
-            $sql = "SELECT id, nome, username, ativo, criado_em FROM usuarios";
-            return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        }
         public static function buscarPorId($id) {
             $pdo = Database::getConnection();
             $sql = "SELECT id, nome, username, ativo FROM usuarios WHERE id = ?";
