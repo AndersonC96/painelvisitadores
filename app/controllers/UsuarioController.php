@@ -1,6 +1,6 @@
 <?php
     namespace App\Controllers;
-    use App\Models\Usuario;   
+    use App\Models\Usuario;
     class UsuarioController {
         public function index() {
             $usuarios = Usuario::listar();
@@ -16,7 +16,16 @@
                 'senha' => $_POST['senha'],
                 'ativo' => isset($_POST['ativo']) ? 1 : 0
             ];
+            // Impede username duplicado
+            if (Usuario::existeUsername($dados['username'])) {
+                $_SESSION['mensagem'] = 'Já existe um usuário com este username!';
+                $_SESSION['mensagem_tipo'] = 'is-danger';
+                header('Location: /usuarios/create');
+                exit;
+            }
             Usuario::criar($dados);
+            $_SESSION['mensagem'] = 'Usuário cadastrado com sucesso!';
+            $_SESSION['mensagem_tipo'] = 'is-success';
             header('Location: /usuarios');
             exit;
         }
@@ -34,14 +43,31 @@
                 'senha' => $_POST['senha'] ?? '',
                 'ativo' => isset($_POST['ativo']) ? 1 : 0
             ];
+            // Impede username duplicado na edição
+            if (Usuario::existeUsername($dados['username'], $id)) {
+                $_SESSION['mensagem'] = 'Já existe outro usuário com este username!';
+                $_SESSION['mensagem_tipo'] = 'is-danger';
+                header('Location: /usuarios/edit?id=' . $id);
+                exit;
+            }
             Usuario::atualizar($id, $dados);
+            $_SESSION['mensagem'] = 'Usuário atualizado com sucesso!';
+            $_SESSION['mensagem_tipo'] = 'is-success';
             header('Location: /usuarios');
             exit;
         }
         public function delete() {
             $id = $_GET['id'] ?? null;
             if ($id) {
-                Usuario::excluir($id);
+                // Não deixa excluir o próprio usuário logado
+                if ($id == $_SESSION['usuario_id']) {
+                    $_SESSION['mensagem'] = 'Você não pode excluir seu próprio usuário!';
+                    $_SESSION['mensagem_tipo'] = 'is-danger';
+                } else {
+                    \App\Models\Usuario::excluir($id);
+                    $_SESSION['mensagem'] = 'Usuário excluído com sucesso!';
+                    $_SESSION['mensagem_tipo'] = 'is-success';
+                }
             }
             header('Location: /usuarios');
             exit;
