@@ -5,26 +5,27 @@
     class Usuario {
         public static function buscarPorId($id) {
             $pdo = Database::getConnection();
-            $sql = "SELECT id, nome, username, ativo FROM usuarios WHERE id = ?";
+            $sql = "SELECT id, nome, username, ativo, tipo FROM usuarios WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
         public static function criar($dados) {
             $pdo = Database::getConnection();
-            $sql = "INSERT INTO usuarios (nome, username, senha, ativo) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO usuarios (nome, username, senha, ativo, tipo) VALUES (?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             return $stmt->execute([
                 $dados['nome'],
                 $dados['username'],
                 password_hash($dados['senha'], PASSWORD_BCRYPT),
-                $dados['ativo'] ?? 1
+                $dados['ativo'] ?? 1,
+                $dados['tipo'] ?? 'comum'
             ]);
         }
         public static function atualizar($id, $dados) {
             $pdo = Database::getConnection();
-            $campos = ['nome = ?', 'username = ?'];
-            $params = [$dados['nome'], $dados['username']];
+            $campos = ['nome = ?', 'username = ?', 'tipo = ?'];
+            $params = [$dados['nome'], $dados['username'], $dados['tipo'] ?? 'comum'];
             if (!empty($dados['senha'])) {
                 $campos[] = 'senha = ?';
                 $params[] = password_hash($dados['senha'], PASSWORD_BCRYPT);
@@ -65,7 +66,8 @@
                 $params[] = '%' . $busca . '%';
                 $params[] = '%' . $busca . '%';
             }
-            $sql = "SELECT id, nome, username, ativo, criado_em FROM usuarios $where ORDER BY id DESC LIMIT $porPagina OFFSET $offset";
+            // Agora busca também o campo tipo
+            $sql = "SELECT id, nome, username, ativo, tipo, criado_em FROM usuarios $where ORDER BY id DESC LIMIT $porPagina OFFSET $offset";
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
