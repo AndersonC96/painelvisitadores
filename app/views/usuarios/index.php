@@ -1,5 +1,12 @@
 <?php require dirname(__DIR__, 2) . '/views/shared/header.php'; ?>
 <?php require dirname(__DIR__, 2) . '/views/shared/navbar.php'; ?>
+<?php if (!empty($_SESSION['mensagem'])): ?>
+    <div class="notification <?= $_SESSION['mensagem_tipo'] ?? 'is-info' ?>">
+        <?= htmlspecialchars($_SESSION['mensagem']) ?>
+        <button class="delete" onclick="this.parentElement.style.display='none';"></button>
+    </div>
+    <?php unset($_SESSION['mensagem'], $_SESSION['mensagem_tipo']); ?>
+<?php endif; ?>
 <section class="section">
     <div class="container">
         <h1 class="title">Usuários</h1>
