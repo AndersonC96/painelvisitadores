@@ -11,6 +11,12 @@
     $router->post('/login', 'AuthController@login');
     $router->get('/logout', 'AuthController@logout');
     $router->get('/', 'DashboardController@index');
+    $router->get('/usuarios', 'UsuarioController@index');
+    $router->get('/usuarios/create', 'UsuarioController@create');
+    $router->post('/usuarios/store', 'UsuarioController@store');
+    $router->get('/usuarios/edit', 'UsuarioController@edit');
+    $router->post('/usuarios/update', 'UsuarioController@update');
+    $router->get('/usuarios/delete', 'UsuarioController@delete');
     // ---- Proteção das rotas internas ----
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = '/' . trim($uri, '/'); // Deixa no formato '/rota'
