@@ -1,6 +1,9 @@
 <?php
     require_once dirname(__DIR__) . '/vendor/autoload.php';
     use App\Core\Router;
+    // Carrega variáveis
+    $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->load();
     // Start session (controle de login)
     session_start();
     $router = new Router();
