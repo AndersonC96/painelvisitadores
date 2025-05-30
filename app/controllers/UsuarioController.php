@@ -3,9 +3,14 @@
     use App\Models\Usuario;
     class UsuarioController {
         public function index() {
-            $usuarios = Usuario::listar();
+            $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
+            $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
+            $porPagina = 10;
+            $usuarios = Usuario::listar($pagina, $porPagina, $busca);
+            $total = Usuario::total($busca);
+            $totalPaginas = ceil($total / $porPagina);
             require dirname(__DIR__) . '/views/usuarios/index.php';
-        }
+        }        
         public function create() {
             require dirname(__DIR__) . '/views/usuarios/create.php';
         }
