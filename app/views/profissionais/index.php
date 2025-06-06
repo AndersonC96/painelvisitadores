@@ -54,7 +54,7 @@
         </div>
       </div>
     </form>
-    <div style="overflow-x:auto; background: #23262d; border-radius: 10px; box-shadow: 0 2px 8px #0001;">
+    <div class="box" style="overflow-x:auto; border-radius: 12px; box-shadow: 0 2px 8px #0001;">
       <table class="table is-striped is-fullwidth" style="background:transparent; color:#fff;">
         <thead>
           <tr>
