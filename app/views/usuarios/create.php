@@ -1,6 +1,9 @@
 <?php require dirname(__DIR__, 2) . '/views/shared/header.php'; ?>
 <?php require dirname(__DIR__, 2) . '/views/shared/navbar.php'; ?>
 <?php include dirname(__DIR__, 2) . '/views/shared/flash.php'; ?>
+<?php
+$filiais_do_usuario = [];
+?>
 <section class="section">
   <div class="container" style="max-width: 500px;">
     <h1 class="title">Novo Usuário</h1>
@@ -24,21 +27,23 @@
         </div>
       </div>
       <div class="field">
-        <label class="label">Filial</label>
+        <label class="label">Filiais</label>
         <div class="control">
-          <div class="select">
-            <select name="filial" required>
-                <option value="SP">São Paulo</option>
-                <option value="BSB">Brasília</option>
-            </select>
-          </div>
+          <?php foreach ($lista_filiais as $filial): ?>
+          <label class="checkbox mr-3">
+            <input type="checkbox" name="filiais[]" value="<?= $filial['id'] ?>"
+            <?= in_array($filial['id'], $filiais_do_usuario) ? 'checked' : '' ?>>
+            <?= htmlspecialchars($filial['nome']) ?>
+          </label>
+          <?php endforeach; ?>
+        </div>
       </div>
       <div class="field">
         <label class="label">Nível de Acesso</label>
         <div class="control">
           <div class="select">
             <select name="tipo" required>
-                <option value="comum">Orçamentista</option>
+                <option value="comum">Comum</option>
                 <option value="admin">Administrador</option>
             </select>
           </div>
