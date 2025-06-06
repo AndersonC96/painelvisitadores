@@ -11,9 +11,46 @@ body.dark-mode .input {
     border: 1.5px solid #2563eb50 !important;
     border-radius: 10px;
 }
-/* Apenas border-radius como padrão (fallback) */
+/* Ajuste selects */
+body.light-mode .select select {
+    background: #fff !important;
+    color: #111 !important;
+}
+body.dark-mode .select select {
+    background: #191c28 !important;
+    color: #eaf1fa !important;
+}
 .input {
     border-radius: 10px;
+}
+/* ==== Tema Claro e Escuro para .box, .title e label ==== */
+body.light-mode .box {
+    background: #fff !important;
+    box-shadow: 0 4px 28px #2563eb13, 0 1.5px 8px #00000011;
+}
+body.dark-mode .box {
+    background: #181b29f9 !important;
+    box-shadow: 0 8px 36px #2563eb15, 0 2px 12px #0006;
+}
+/* NOVOS AJUSTES GARANTIDOS: */
+body.light-mode .title,
+body.light-mode label.label,
+body.light-mode .label,
+body.light-mode .box label.label,
+body.light-mode .box .label {
+    color: #222 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
+    text-shadow: none !important;
+}
+body.dark-mode .title,
+body.dark-mode label.label,
+body.dark-mode .label,
+body.dark-mode .box label.label,
+body.dark-mode .box .label {
+    color: #eaf1fa !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
 }
 /* ==== Login e botões ==== */
 .login-bg {
@@ -83,7 +120,6 @@ body.light-mode .table thead th {
     background: #f4f6fc !important;
     color: #222 !important;
 }
-/* Table linhas */
 body.dark-mode .table tbody tr {
     background: #181b29 !important;
     color: #e0e7ef !important;
