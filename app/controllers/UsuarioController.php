@@ -10,8 +10,11 @@
             $total = Usuario::total($busca);
             $totalPaginas = ceil($total / $porPagina);
             require dirname(__DIR__) . '/views/usuarios/index.php';
-        }        
+        }
         public function create() {
+            $filiais_do_usuario = [];
+            $pdo = \App\Core\Database::getConnection();
+            $lista_filiais = $pdo->query("SELECT id, nome FROM filiais")->fetchAll(\PDO::FETCH_ASSOC);
             require dirname(__DIR__) . '/views/usuarios/create.php';
         }
         public function store() {
@@ -19,9 +22,10 @@
                 'nome' => $_POST['nome'],
                 'username' => $_POST['username'],
                 'senha' => $_POST['senha'],
-                'ativo' => isset($_POST['ativo']) ? 1 : 0
+                'ativo' => isset($_POST['ativo']) ? 1 : 0,
+                'tipo' => $_POST['tipo'],
+                'filiais' => $_POST['filiais'] ?? [] // <-- repassa as filiais selecionadas!
             ];
-            // Impede username duplicado
             if (Usuario::existeUsername($dados['username'])) {
                 $_SESSION['mensagem'] = 'Já existe um usuário com este username!';
                 $_SESSION['mensagem_tipo'] = 'is-danger';
@@ -38,6 +42,9 @@
             $id = $_GET['id'] ?? null;
             if (!$id) { header('Location: /usuarios'); exit; }
             $usuario = Usuario::buscarPorId($id);
+            $filiais_do_usuario = Usuario::filiaisDoUsuario($id);
+            $pdo = \App\Core\Database::getConnection();
+            $lista_filiais = $pdo->query("SELECT id, nome FROM filiais")->fetchAll(\PDO::FETCH_ASSOC);
             require dirname(__DIR__) . '/views/usuarios/edit.php';
         }
         public function update() {
@@ -46,9 +53,10 @@
                 'nome' => $_POST['nome'],
                 'username' => $_POST['username'],
                 'senha' => $_POST['senha'] ?? '',
-                'ativo' => isset($_POST['ativo']) ? 1 : 0
+                'ativo' => isset($_POST['ativo']) ? 1 : 0,
+                'tipo' => $_POST['tipo'],
+                'filiais' => $_POST['filiais'] ?? []
             ];
-            // Impede username duplicado na edição
             if (Usuario::existeUsername($dados['username'], $id)) {
                 $_SESSION['mensagem'] = 'Já existe outro usuário com este username!';
                 $_SESSION['mensagem_tipo'] = 'is-danger';
@@ -64,7 +72,6 @@
         public function delete() {
             $id = $_GET['id'] ?? null;
             if ($id) {
-                // Não deixa excluir o próprio usuário logado
                 if ($id == $_SESSION['usuario_id']) {
                     $_SESSION['mensagem'] = 'Você não pode excluir seu próprio usuário!';
                     $_SESSION['mensagem_tipo'] = 'is-danger';
