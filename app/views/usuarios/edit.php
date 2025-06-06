@@ -25,27 +25,28 @@
         </div>
       </div>
       <div class="field">
-        <label class="label">Filial</label>
+        <label class="label">Filiais</label>
+        <div class="control">
+          <?php foreach ($lista_filiais as $filial): ?>
+          <label class="checkbox mr-3">
+            <input type="checkbox" name="filiais[]" value="<?= $filial['id'] ?>"
+            <?= in_array($filial['id'], $filiais_do_usuario) ? 'checked' : '' ?>>
+            <?= htmlspecialchars($filial['nome']) ?>
+          </label>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Nível de Acesso</label>
         <div class="control">
           <div class="select">
-            <select name="filial" required>
-                <option value="SP" <?= ($usuario['filial'] ?? '') == 'SP' ? 'selected' : '' ?>>SP</option>
-                <option value="BSB" <?= ($usuario['filial'] ?? '') == 'BSB' ? 'selected' : '' ?>>BSB</option>
+            <select name="tipo" required>
+              <option value="comum" <?= ($usuario['tipo'] ?? '') == 'comum' ? 'selected' : '' ?>>Comum</option>
+              <option value="admin" <?= ($usuario['tipo'] ?? '') == 'admin' ? 'selected' : '' ?>>Administrador</option>
             </select>
           </div>
         </div>
-        <div class="field">
-          <label class="label">Nível de Acesso</label>
-          <div class="control">
-          <div class="select">
-            <select name="tipo" required>
-                <option value="comum" <?= ($usuario['tipo'] ?? '') == 'comum' ? 'selected' : '' ?>>Comum</option>
-                <option value="admin" <?= ($usuario['tipo'] ?? '') == 'admin' ? 'selected' : '' ?>>Administrador</option>
-            </select>
-        </div>
-    </div>
-</div>
-
+      </div>
       <div class="field">
         <label class="checkbox">
           <input type="checkbox" name="ativo" <?= $usuario['ativo'] ? 'checked' : '' ?>>
