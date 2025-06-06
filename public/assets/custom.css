@@ -1,3 +1,21 @@
+/* ==== Tema Claro e Escuro para Inputs ==== */
+body.light-mode .input {
+    background: #fff !important;
+    color: #111 !important;
+    border: 1.5px solid #2563eb33 !important;
+    border-radius: 10px;
+}
+body.dark-mode .input {
+    background: #191c28 !important;
+    color: #e0e7ef !important;
+    border: 1.5px solid #2563eb50 !important;
+    border-radius: 10px;
+}
+/* Apenas border-radius como padrão (fallback) */
+.input {
+    border-radius: 10px;
+}
+/* ==== Login e botões ==== */
 .login-bg {
     min-height: 100vh;
     background: linear-gradient(135deg, #181b29 0%, #2563eb 100%);
@@ -28,16 +46,6 @@
     margin-bottom: 2rem;
     text-shadow: 0 0 8px #2563eb66, 0 2px 1px #111;
 }
-.input {
-    background: #191c28 !important;
-    color: #e0e7ef !important;
-    border: 1.5px solid #2563eb50 !important;
-    border-radius: 10px;
-}
-.input:focus {
-    border-color: #2563eb !important;
-    box-shadow: 0 0 5px #2563eb55;
-}
 .login-btn, .button.is-link {
     background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%) !important;
     color: #fff !important;
@@ -52,6 +60,7 @@
     background: linear-gradient(90deg, #60a5fa 30%, #2563eb 100%) !important;
     box-shadow: 0 5px 28px #2563ebcc;
 }
+/* Footer fixo */
 .footer {
     width: 100vw;
     background: #181b29e8;
@@ -65,6 +74,25 @@
     bottom: 0;
     z-index: 100;
 }
+/* Table ajusta cor do cabeçalho (se quiser) */
+body.dark-mode .table thead th {
+    background: #181b29 !important;
+    color: #e0e7ef !important;
+}
+body.light-mode .table thead th {
+    background: #f4f6fc !important;
+    color: #222 !important;
+}
+/* Table linhas */
+body.dark-mode .table tbody tr {
+    background: #181b29 !important;
+    color: #e0e7ef !important;
+}
+body.light-mode .table tbody tr {
+    background: #fff !important;
+    color: #222 !important;
+}
+/* Responsivo */
 @media (max-width: 600px) {
     .login-container {
         padding: 1.1rem 0.5rem 1.4rem 0.5rem;
@@ -73,4 +101,23 @@
     .login-title {
         font-size: 1.3rem;
     }
+}
+/* ==== Footer visual claro/escuro sempre visível ==== */
+.footer-text, .footer-text strong {
+    color: #eaf1fa !important;    /* Cor clara como padrão */
+    text-shadow: 0 2px 4px #0b153160, 0 1px 1px #fff2;
+    font-weight: 700;
+    font-size: 1.14rem;
+    letter-spacing: 1px;
+    transition: color .3s;
+}
+body.light-mode .footer-text,
+body.light-mode .footer-text strong {
+    color: #222 !important;
+    text-shadow: none;
+}
+body.dark-mode .footer-text,
+body.dark-mode .footer-text strong {
+    color: #eaf1fa !important;
+    text-shadow: 0 2px 4px #0b1531cc;
 }
