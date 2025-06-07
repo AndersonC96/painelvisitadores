@@ -32,7 +32,7 @@ body.dark-mode .box {
     background: #181b29f9 !important;
     box-shadow: 0 8px 36px #2563eb15, 0 2px 12px #0006;
 }
-/* NOVOS AJUSTES GARANTIDOS: */
+/* LABELS VISÍVEIS EM TODOS OS MODOS */
 body.light-mode .title,
 body.light-mode label.label,
 body.light-mode .label,
@@ -51,6 +51,17 @@ body.dark-mode .box .label {
     color: #eaf1fa !important;
     font-weight: 700 !important;
     letter-spacing: 0.01em;
+}
+/* Checkbox label alto contraste */
+body.light-mode .checkbox,
+body.light-mode label.checkbox {
+    color: #212c47 !important;
+    font-weight: 700;
+}
+body.dark-mode .checkbox,
+body.dark-mode label.checkbox {
+    color: #eaf1fa !important;
+    font-weight: 700;
 }
 /* ==== Login e botões ==== */
 .login-bg {
@@ -156,4 +167,33 @@ body.dark-mode .footer-text,
 body.dark-mode .footer-text strong {
     color: #eaf1fa !important;
     text-shadow: 0 2px 4px #0b1531cc;
+}
+/* ==== Tema Claro e Escuro para .box, .title e label ==== */
+body.light-mode .box {
+    background: #fff !important;
+    box-shadow: 0 4px 28px #2563eb13, 0 1.5px 8px #00000011;
+}
+body.dark-mode .box {
+    background: #181b29f9 !important;
+    box-shadow: 0 8px 36px #2563eb15, 0 2px 12px #0006;
+}
+/* GARANTIA para labels e títulos ficarem visíveis */
+body.light-mode .title,
+body.light-mode label.label,
+body.light-mode .label,
+body.light-mode .box label.label,
+body.light-mode .box .label {
+    color: #222 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
+    text-shadow: none !important;
+}
+body.dark-mode .title,
+body.dark-mode label.label,
+body.dark-mode .label,
+body.dark-mode .box label.label,
+body.dark-mode .box .label {
+    color: #eaf1fa !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
 }
