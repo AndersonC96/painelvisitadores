@@ -6,7 +6,7 @@
       </span>
       <span>Painel Visitadores</span>
     </a>
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu" onclick="document.getElementById('navbarMenu').classList.toggle('is-active');this.classList.toggle('is-active');">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -14,13 +14,15 @@
   </div>
   <div id="navbarMenu" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="/">Dashboard</a>
       <a class="navbar-item" href="/profissionais">Profissionais</a>
-      <a class="navbar-item" href="/representantes">Representantes</a>
-      <a class="navbar-item" href="/auditoria">Auditoria</a>
-      <a class="navbar-item" href="/usuarios">Usuários</a>
-      <a class="navbar-item" href="/vendedoras">Vendedoras</a>
-      <a class="navbar-item" href="/times">Times</a>
+      <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+        <a class="navbar-item" href="/">Dashboard</a>
+        <a class="navbar-item" href="/representantes">Representantes</a>
+        <a class="navbar-item" href="/auditoria">Auditoria</a>
+        <a class="navbar-item" href="/usuarios">Usuários</a>
+        <a class="navbar-item" href="/vendedoras">Vendedoras</a>
+        <a class="navbar-item" href="/times">Times</a>
+      <?php endif; ?>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
