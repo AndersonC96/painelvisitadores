@@ -1,7 +1,6 @@
 <?php require dirname(__DIR__, 2) . '/views/shared/header.php'; ?>
 <?php require dirname(__DIR__, 2) . '/views/shared/navbar.php'; ?>
 <?php include dirname(__DIR__, 2) . '/views/shared/flash.php'; ?>
-
 <section class="section" style="min-height:85vh; display:flex; align-items:center;">
   <div class="container" style="max-width:520px; margin:auto;">
     <div class="box" style="
