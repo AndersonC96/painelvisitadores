@@ -1,59 +1,52 @@
 <?php require dirname(__DIR__, 2) . '/views/shared/header.php'; ?>
 <?php require dirname(__DIR__, 2) . '/views/shared/navbar.php'; ?>
 <?php include dirname(__DIR__, 2) . '/views/shared/flash.php'; ?>
-
 <section class="section" style="min-height:85vh; display:flex; align-items:center;">
   <div class="container" style="max-width:520px; margin:auto;">
     <div class="box" style="
       border-radius: 18px;
-      background: var(--form-bg, rgba(24, 27, 41, 0.96));
       box-shadow: 0 6px 36px 0 #2563eb22, 0 2px 12px 0 #1111;
       padding: 2.2rem 2.3rem 2rem 2.3rem;
       backdrop-filter: blur(1.5px);">
       <h1 class="title has-text-centered"
           style="font-size:2.1rem; font-family:'Montserrat',Segoe UI,sans-serif;font-weight:800;
-          color:var(--form-title,#fff);margin-bottom:1.6rem;text-shadow:0 2px 8px #2563eb44;">
+          margin-bottom:1.6rem;text-shadow:0 2px 8px #2563eb44;">
         Editar Profissional
       </h1>
       <form method="POST" action="/profissionais/update" autocomplete="off">
         <input type="hidden" name="id" value="<?= $profissional['id'] ?>">
         <div class="field">
-          <label class="label" style="font-weight:700;letter-spacing:0.5px;">Nome</label>
+          <label class="label">Nome</label>
           <div class="control">
-            <input class="input" type="text" name="nome_profissional" required maxlength="100"
-                   value="<?= htmlspecialchars($profissional['nome_profissional']) ?>" autofocus>
+            <input class="input" type="text" name="nome_profissional" required maxlength="100" value="<?= htmlspecialchars($profissional['nome_profissional']) ?>" autofocus>
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Tipo</label>
+          <label class="label">Tipo</label>
           <div class="control">
-            <input class="input" type="text" name="tipo" required maxlength="100"
-                   value="<?= htmlspecialchars($profissional['tipo']) ?>">
+            <input class="input" type="text" name="tipo" required maxlength="100" value="<?= htmlspecialchars($profissional['tipo']) ?>">
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Estado</label>
+          <label class="label">Estado</label>
           <div class="control">
-            <input class="input" type="text" name="estado" required maxlength="2" style="text-transform:uppercase;"
-                   value="<?= htmlspecialchars($profissional['estado']) ?>">
+            <input class="input" type="text" name="estado" required maxlength="2" style="text-transform:uppercase;" value="<?= htmlspecialchars($profissional['estado']) ?>">
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Registro</label>
+          <label class="label">Registro</label>
           <div class="control">
-            <input class="input" type="text" name="registro" required maxlength="30"
-                   value="<?= htmlspecialchars($profissional['registro']) ?>">
+            <input class="input" type="text" name="registro" required maxlength="30" value="<?= htmlspecialchars($profissional['registro']) ?>">
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Categoria</label>
+          <label class="label">Categoria</label>
           <div class="control">
-            <input class="input" type="text" name="categoria" required maxlength="50"
-                   value="<?= htmlspecialchars($profissional['categoria']) ?>">
+            <input class="input" type="text" name="categoria" required maxlength="50" value="<?= htmlspecialchars($profissional['categoria']) ?>">
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Representante</label>
+          <label class="label">Representante</label>
           <div class="control">
             <div class="select is-fullwidth">
               <select name="representante_id" required>
@@ -68,7 +61,7 @@
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Vendedora</label>
+          <label class="label">Vendedora</label>
           <div class="control">
             <div class="select is-fullwidth">
               <select name="vendedora_id" required>
@@ -83,7 +76,7 @@
           </div>
         </div>
         <div class="field">
-          <label class="label" style="font-weight:700;">Filial</label>
+          <label class="label">Filial</label>
           <div class="control">
             <div class="select is-fullwidth">
               <select name="filial_id" required>
@@ -109,8 +102,7 @@
             " type="submit">Salvar</button>
           </div>
           <div class="control">
-            <a class="button is-light" style="
-              border-radius:10px;font-weight:700;" href="/profissionais">Cancelar</a>
+            <a class="button is-light" style="border-radius:10px;font-weight:700;" href="/profissionais">Cancelar</a>
           </div>
         </div>
       </form>
