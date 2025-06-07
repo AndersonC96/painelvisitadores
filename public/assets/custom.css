@@ -252,3 +252,69 @@ select[multiple] option:checked {
     color: #fff;
     font-weight: 600;
 }
+/* Badge de status visual (usado em usuários, representantes etc) */
+.status-badge {
+    display: inline-block;
+    padding: 2px 14px 3px 14px;
+    border-radius: 18px;
+    font-size: 0.99rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: #e8fbee;
+    color: #219c34;
+    border: 1.3px solid #219c3466;
+    box-shadow: 0 2px 12px #219c3433;
+    transition: all .15s;
+}
+.status-badge.inativo {
+    background: #fff0f2;
+    color: #db2d43;
+    border: 1.3px solid #db2d4360;
+    box-shadow: 0 2px 12px #db2d4333;
+}
+body.dark-mode .status-badge {
+    background: #0c2d20;
+    color: #8affc6;
+    border: 1.3px solid #13b15e77;
+}
+body.dark-mode .status-badge.inativo {
+    background: #2c1621;
+    color: #ff7b98;
+    border: 1.3px solid #db2d438c;
+}
+.filiais-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7em 1.1em;
+    margin-top: 0.2em;
+}
+.checkbox-pill {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.45em 1.3em;
+    background: #f4f6fc;
+    border: 2px solid #2563eb33;
+    border-radius: 22px;
+    font-weight: 600;
+    transition: background 0.15s, border 0.2s;
+    user-select: none;
+}
+.checkbox-pill input[type="checkbox"] {
+    display: none;
+}
+.checkbox-pill.selected, .checkbox-pill input[type="checkbox"]:checked + span {
+    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+    color: #fff;
+    border: 2px solid #2563eb88;
+}
+body.dark-mode .checkbox-pill {
+    background: #23273a;
+    border-color: #2563eb55;
+    color: #eaf1fa;
+}
+body.dark-mode .checkbox-pill.selected, body.dark-mode .checkbox-pill input[type="checkbox"]:checked + span {
+    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+    color: #fff;
+    border: 2px solid #60a5fa99;
+}
