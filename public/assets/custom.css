@@ -214,3 +214,41 @@ body.dark-mode .box .label {
     background: #ec6973;
     color: #fff;
 }
+/* Aparência moderna para select[multiple] */
+body.light-mode select[multiple], body.dark-mode select[multiple] {
+    width: 100%;
+    min-height: 130px;
+    background: var(--select-bg, #f8fafc);
+    color: #212c47;
+    border: 1.5px solid #2563eb55;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 1.06rem;
+    box-shadow: 0 2px 9px #2563eb15;
+    outline: none;
+    transition: border .15s, box-shadow .15s;
+    appearance: none;
+    scrollbar-width: thin;
+    scrollbar-color: #2563eb88 #eaf1fa;
+}
+body.dark-mode select[multiple] {
+    background: #202335;
+    color: #eaf1fa;
+    border-color: #2563eb88;
+}
+select[multiple]:focus {
+    border: 1.5px solid #2563eb;
+    box-shadow: 0 0 0 3px #2563eb25;
+}
+/* Rolagem mais suave */
+select[multiple] option {
+    padding: 6px 8px;
+    border-radius: 5px;
+    margin: 2px 0;
+}
+/* Destaca a opção selecionada */
+select[multiple] option:checked {
+    background: linear-gradient(90deg, #2563eb 50%, #60a5fa 100%);
+    color: #fff;
+    font-weight: 600;
+}
