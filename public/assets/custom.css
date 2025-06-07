@@ -372,3 +372,112 @@ body.dark-mode .checkbox-custom {
     background: #222739;
     border-color: #2563ebcc;
 }
+/* ==== NAVBAR MODERNA ==== */
+.custom-navbar {
+    background: linear-gradient(90deg, #181b29 0%, #2563eb 90%);
+    box-shadow: 0 2px 16px #181b2940, 0 1px 4px #2563eb14;
+    border-bottom: 2.5px solid #2563eb44;
+    padding: 0.5rem 0;
+    min-height: 58px;
+    z-index: 1000;
+}
+.custom-navbar .navbar-item {
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #eaf1fa !important;
+    letter-spacing: 0.02em;
+    transition: color 0.17s;
+    border-radius: 7px;
+    margin: 0 0.13em;
+    padding: 0.55em 1.25em;
+}
+.custom-navbar .navbar-item.logo-text {
+    font-size: 1.31rem;
+    font-weight: 800;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    letter-spacing: 0.04em;
+}
+.custom-navbar .navbar-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 2px;
+}
+.custom-navbar .navbar-item:hover, 
+.custom-navbar .navbar-item.is-active {
+    background: #2563eb30;
+    color: #fff !important;
+    box-shadow: 0 2px 12px #2563eb30;
+    text-decoration: none;
+}
+.custom-navbar .logout-btn {
+    background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    padding: 0.52em 1.2em;
+    box-shadow: 0 2px 12px #2563eb33;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.custom-navbar .logout-btn:hover {
+    background: linear-gradient(90deg, #60a5fa 20%, #2563eb 100%);
+    color: #fff !important;
+    box-shadow: 0 5px 24px #2563eb55;
+}
+/* Burger menu (mobile) */
+.navbar-burger {
+    color: #eaf1fa !important;
+    margin-left: 1.2em;
+}
+@media (max-width: 1000px) {
+    .custom-navbar .navbar-start, .custom-navbar .navbar-end {
+        background: #191c28;
+        border-radius: 10px;
+        margin: 0.6em 0;
+        box-shadow: 0 2px 18px #2563eb19;
+    }
+}
+/* Para garantir contraste com Bulma */
+body.light-mode .custom-navbar {
+    background: linear-gradient(90deg, #fff 0%, #eaf1fa 100%);
+    color: #2563eb !important;
+    border-bottom: 2px solid #2563eb22;
+}
+body.light-mode .custom-navbar .navbar-item,
+body.light-mode .custom-navbar .logout-btn {
+    color: #2563eb !important;
+    background: transparent;
+}
+body.light-mode .custom-navbar .navbar-item:hover,
+body.light-mode .custom-navbar .navbar-item.is-active {
+    background: #2563eb14;
+    color: #2563eb !important;
+    box-shadow: 0 2px 12px #2563eb12;
+}
+body.light-mode .custom-navbar .logout-btn {
+    background: linear-gradient(90deg, #2563eb 70%, #60a5fa 100%);
+    color: #fff !important;
+}
+body.light-mode .custom-navbar .logout-btn:hover {
+    background: linear-gradient(90deg, #60a5fa 30%, #2563eb 100%);
+}
+/* Sombra mais forte */
+@media (max-width: 720px) {
+    .custom-navbar {
+        min-height: 48px;
+        padding: 0.15rem 0;
+    }
+    .custom-navbar .navbar-item {
+        padding: 0.45em 0.8em;
+        font-size: 0.97rem;
+    }
+}
+/* Corrige o menu burger mobile do Bulma */
+.navbar-burger { cursor: pointer; }
+.navbar-burger.is-active,
+.navbar-menu.is-active { display: block; }
