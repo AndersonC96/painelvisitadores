@@ -52,4 +52,18 @@
             $pdo = Database::getConnection();
             return $pdo->query("SELECT id, nome FROM filiais ORDER BY nome")->fetchAll(PDO::FETCH_ASSOC);
         }
+        public static function buscarComFiltro($busca) {
+            $pdo = Database::getConnection();
+            $busca = '%' . mb_strtolower(trim($busca), 'UTF-8') . '%';
+            $sql = "SELECT r.*, f.nome as filial_nome FROM representantes r LEFT JOIN filiais f ON r.filial_id = f.id WHERE LOWER(r.nome) LIKE :busca OR LOWER(f.nome) LIKE :busca OR (:ativo = 1 AND r.ativo = 1 AND 'ativo' LIKE :busca) OR (:inativo = 1 AND r.ativo = 0 AND 'inativo' LIKE :busca) ORDER BY r.nome";
+            $ativo = (stripos($busca, 'ativo') !== false) ? 1 : 0;
+            $inativo = (stripos($busca, 'inativo') !== false) ? 1 : 0;
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':busca' => $busca,
+                ':ativo' => $ativo,
+                ':inativo' => $inativo
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
