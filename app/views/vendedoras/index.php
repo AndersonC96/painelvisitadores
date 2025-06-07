@@ -1,7 +1,6 @@
 <?php require dirname(__DIR__, 2) . '/views/shared/header.php'; ?>
 <?php require dirname(__DIR__, 2) . '/views/shared/navbar.php'; ?>
 <?php include dirname(__DIR__, 2) . '/views/shared/flash.php'; ?>
-
 <section class="section" style="min-height:85vh; display:flex; align-items:flex-start;">
   <div class="container" style="max-width:1050px; margin:auto;">
     <div class="box" style="
@@ -9,7 +8,6 @@
       box-shadow: 0 6px 36px 0 #2563eb22, 0 2px 12px 0 #1111;
       padding: 2.2rem 2.3rem 2.1rem 2.3rem;
       backdrop-filter: blur(1.5px);">
-      
       <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem 1.3rem;">
         <h1 class="title" style="
             font-size:2.1rem;
@@ -82,8 +80,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Paginação -->
       <?php if ($totalPaginas > 1): ?>
         <nav class="pagination is-centered mt-4" role="navigation">
           <ul class="pagination-list">
@@ -98,7 +94,6 @@
           </ul>
         </nav>
       <?php endif; ?>
-
     </div>
   </div>
 </section>
