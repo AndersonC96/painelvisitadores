@@ -18,7 +18,10 @@
                         <input class="input" type="text" name="busca" placeholder="Buscar por nome ou usuário" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>" style="border-radius:10px;">
                     </div>
                     <div class="control">
-                        <button class="button is-link" style="border-radius:10px;">Buscar</button>
+                        <button class="button is-link" type="submit" style="border-radius:10px;">
+                            <span class="icon"><i class="fas fa-search"></i></span>
+                            <span>Buscar</span>
+                        </button>
                     </div>
                 </div>
             </form>
