@@ -26,7 +26,6 @@
           Novo Representante
         </a>
       </div>
-      <!-- Campo de busca -->
       <form method="get" action="" autocomplete="off" style="margin-bottom:1.2rem;">
         <div class="field has-addons" style="max-width:380px;">
           <div class="control is-expanded">
@@ -34,8 +33,11 @@
               placeholder="Buscar representante, filial ou status..." style="border-radius:10px;">
           </div>
           <div class="control">
-            <button class="button is-link" type="submit" style="border-radius:10px;">Buscar</button>
-          </div>
+                <button class="button is-link" type="submit" style="border-radius:10px;">
+                  <span class="icon"><i class="fas fa-search"></i></span>
+                  <span>Buscar</span>
+                </button>
+              </div>
         </div>
       </form>
       <div class="table-responsive">
