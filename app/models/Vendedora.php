@@ -5,11 +5,17 @@
     class Vendedora {
         public static function listar($busca = '') {
             $pdo = Database::getConnection();
-            $where = $busca ? "WHERE v.nome LIKE ?" : "";
-            $params = $busca ? ["%$busca%"] : [];
-            $sql = "SELECT v.*, t.nome as time_nome FROM vendedoras v LEFT JOIN times t ON v.time_id = t.id $where ORDER BY v.nome";
+            $sql = "SELECT v.*, t.nome as time_nome FROM vendedoras v LEFT JOIN times t ON v.time_id = t.id";
+            if ($busca) {
+                $sql .= " WHERE v.nome LIKE :busca OR t.nome LIKE :busca";
+            }
+            $sql .= " ORDER BY v.nome";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
+            if ($busca) {
+                $stmt->execute([':busca' => '%' . $busca . '%']);
+            } else {
+                $stmt->execute();
+            }
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public static function buscarPorId($id) {
