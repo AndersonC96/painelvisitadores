@@ -3,7 +3,12 @@
     use App\Models\Representante;
     class RepresentanteController {
         public function index() {
-            $representantes = Representante::listar();
+            $busca = $_GET['busca'] ?? '';
+            if ($busca !== '') {
+                $representantes = Representante::buscarComFiltro($busca);
+            } else {
+                $representantes = Representante::listar();
+            }
             require dirname(__DIR__) . '/views/representantes/index.php';
         }
         public function create() {
