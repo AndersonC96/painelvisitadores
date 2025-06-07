@@ -15,9 +15,12 @@
                 require dirname(__DIR__) . '/views/auth/login.php';
                 return;
             }
+            // --- Tipo de sessão ---
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_tipo'] = $usuario['tipo']; // 'admin' ou 'comum'
             $_SESSION['ultimo_acao'] = time();
+            // ------------------------------------------------
             header("Location: /");
             exit;
         }
