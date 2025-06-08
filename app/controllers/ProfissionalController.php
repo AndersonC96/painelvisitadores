@@ -72,9 +72,8 @@
             $this->checkAdmin();
             $id = $_GET['id'] ?? null;
             if ($id) {
-                Profissional::excluir($id);
-                $_SESSION['mensagem'] = 'Profissional excluído com sucesso!';
-                $_SESSION['mensagem_tipo'] = 'is-success';
+                Profissional::ocultar($id);
+                $_SESSION['mensagem'] = 'Profissional removido com sucesso!';
             }
             header('Location: /profissionais');
             exit;
