@@ -3,29 +3,17 @@
     use App\Core\Database;
     use PDO;
     class Profissional {
-        /*public static function listar() {
-            $pdo = Database::getConnection();
-            $sql = "SELECT p.*, r.nome AS representante_nome, v.nome AS vendedora_nome, f.nome AS filial_nome FROM profissionais p LEFT JOIN representantes r ON p.representante_id = r.id LEFT JOIN vendedoras v ON p.vendedora_id = v.id LEFT JOIN filiais f ON p.filial_id = f.id ORDER BY p.nome_profissional";
-            return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-        }*/
         public static function listar($busca = '', $ordenar = '') {
             $pdo = Database::getConnection();
-            $where = [];
-            $params = [];       
-            // Busca por nome, CRM, representante ou vendedora
+            $where = ["p.oculto != 1"];
+            $params = [];
             if ($busca) {
-                $where[] = "(
-                    p.nome_profissional LIKE ? 
-                    OR p.registro LIKE ? 
-                    OR r.nome LIKE ?
-                    OR v.nome LIKE ?
-                )";
+                $where[] = "(p.nome_profissional LIKE ? OR p.registro LIKE ? OR r.nome LIKE ? OR v.nome LIKE ?)";
                 $params[] = "%$busca%";
                 $params[] = "%$busca%";
                 $params[] = "%$busca%";
                 $params[] = "%$busca%";
-            }        
-            // Ordenação
+            }
             $order = "p.nome_profissional ASC";
             switch ($ordenar) {
                 case 'nome_asc':   $order = "p.nome_profissional ASC"; break;
@@ -84,11 +72,14 @@
                 $id
             ]);
         }
-        public static function excluir($id) {
+        public static function ocultar($id) {
             $pdo = Database::getConnection();
-            $sql = "DELETE FROM profissionais WHERE id = ?";
+            $sql = "UPDATE profissionais SET oculto = 1 WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             return $stmt->execute([$id]);
+        }
+        public static function excluir($id) {
+            return self::ocultar($id);
         }
         public static function todosRepresentantes() {
             $pdo = Database::getConnection();
