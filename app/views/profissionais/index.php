@@ -13,6 +13,7 @@
             text-shadow:0 2px 8px #2563eb33;">
           Profissionais
         </h1>
+        <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
         <a href="/profissionais/create" class="button is-link" style="
           font-weight:700;
           font-size:1.13rem;
@@ -21,6 +22,7 @@
           box-shadow:0 3px 18px #2563eb66;">
           Novo Profissional
         </a>
+        <?php endif; ?>
       </div>
       <form method="get" action="" autocomplete="off" style="margin-bottom:1.4rem;">
         <div class="columns is-multiline is-vcentered" style="gap:0.8rem 0;">
@@ -70,7 +72,9 @@
               <th>Representante</th>
               <th>Vendedora</th>
               <th>Filial</th>
+              <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
               <th>Ações</th>
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody>
@@ -84,12 +88,14 @@
                 <td><?= htmlspecialchars($p['vendedora_nome']) ?></td>
                 <td><?= htmlspecialchars($p['filial_nome']) ?></td>
                 <td>
-                  <a href="/profissionais/edit?id=<?= $p['id'] ?>" class="button is-small is-info" style="font-weight:600;border-radius:7px;margin-right:6px;">
-                    Editar
-                  </a>
-                  <a href="/profissionais/delete?id=<?= $p['id'] ?>" class="button is-small is-danger" style="font-weight:600;border-radius:7px;" onclick="return confirm('Deseja excluir este profissional?')">
-                    Excluir
-                  </a>
+                  <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+                    <a href="/profissionais/edit?id=<?= $p['id'] ?>" class="button is-small is-info" style="font-weight:600;border-radius:7px;margin-right:6px;">
+                      Editar
+                    </a>
+                    <a href="/profissionais/delete?id=<?= $p['id'] ?>" class="button is-small is-danger" style="font-weight:600;border-radius:7px;" onclick="return confirm('Deseja excluir este profissional?')">
+                      Excluir
+                    </a>
+                  <?php endif; ?>
                 </td>
               </tr>
             <?php endforeach; ?>
