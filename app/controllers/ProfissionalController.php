@@ -11,11 +11,22 @@
         public function index() {
             $busca   = $_GET['busca'] ?? '';
             $ordenar = $_GET['ordenar'] ?? '';
-            $filiais_usuario = null;
-            if (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'comum') {
-                $filiais_usuario = \App\Models\Usuario::filiaisDoUsuario($_SESSION['usuario_id']);
+            $filial  = isset($_GET['filial']) ? (int)$_GET['filial'] : null;
+            $filiais_usuario = [];
+            if (isset($_SESSION['usuario_id'])) {
+                if (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'comum') {
+                    $filiais_usuario = \App\Models\Usuario::filiaisDoUsuario($_SESSION['usuario_id']);
+                }
             }
-            $profissionais = Profissional::listar($busca, $ordenar, $filiais_usuario);
+            if (
+                $_SESSION['usuario_tipo'] === 'admin' ||
+                (is_array($filiais_usuario) && count($filiais_usuario) > 1 && $filial && in_array($filial, $filiais_usuario))
+            ) {
+                $filiais_filtrar = $filial ? [$filial] : ($filiais_usuario ?: null);
+            } else {
+                $filiais_filtrar = $filiais_usuario;
+            }
+            $profissionais = Profissional::listar($busca, $ordenar, $filiais_filtrar);
             require dirname(__DIR__) . '/views/profissionais/index.php';
         }
         public function create() {
