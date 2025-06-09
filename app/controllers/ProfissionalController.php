@@ -11,7 +11,11 @@
         public function index() {
             $busca   = $_GET['busca'] ?? '';
             $ordenar = $_GET['ordenar'] ?? '';
-            $profissionais = Profissional::listar($busca, $ordenar);
+            $filiais_usuario = null;
+            if (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'comum') {
+                $filiais_usuario = \App\Models\Usuario::filiaisDoUsuario($_SESSION['usuario_id']);
+            }
+            $profissionais = Profissional::listar($busca, $ordenar, $filiais_usuario);
             require dirname(__DIR__) . '/views/profissionais/index.php';
         }
         public function create() {
