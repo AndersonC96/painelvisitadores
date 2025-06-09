@@ -13,6 +13,15 @@
             text-shadow:0 2px 8px #2563eb33;">
           Profissionais
         </h1>
+        <?php
+          $pode_ver_todas = $_SESSION['usuario_tipo'] === 'admin' || (is_array($filiais_usuario) && count($filiais_usuario) > 1);
+        ?>
+        <?php if ($pode_ver_todas): ?>
+        <div style="margin-bottom: 1.2rem; display: flex; gap: 12px;">
+          <a href="/profissionais?filial=1" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '1') ? 'is-active' : '' ?>">São Paulo</a>
+          <a href="/profissionais?filial=2" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '2') ? 'is-active' : '' ?>">Brasília</a>
+        </div>
+        <?php endif; ?>
         <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
         <a href="/profissionais/create" class="button is-link" style="
           font-weight:700;
