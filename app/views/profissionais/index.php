@@ -5,12 +5,7 @@
   <div class="container" style="max-width: 1200px; margin:auto;">
     <div class="box" style="border-radius: 18px; box-shadow: 0 6px 36px 0 #2563eb22, 0 2px 12px 0 #1111; padding: 2.2rem 2.3rem 2.1rem 2.3rem; backdrop-filter: blur(1.5px);">
       <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem 1.3rem;">
-        <h1 class="title" style="
-            font-size:2.1rem;
-            font-family:'Montserrat',Segoe UI,sans-serif;
-            font-weight:800;
-            margin-bottom:1.2rem;
-            text-shadow:0 2px 8px #2563eb33;">
+        <h1 class="title" style="font-size:2.1rem; font-family:'Montserrat',Segoe UI,sans-serif; font-weight:800; margin-bottom:1.2rem; text-shadow:0 2px 8px #2563eb33;">
           Profissionais
         </h1>
         <?php
@@ -22,16 +17,15 @@
           <a href="/profissionais?filial=2" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '2') ? 'is-active' : '' ?>">Brasília</a>
         </div>
         <?php endif; ?>
-        <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
-        <a href="/profissionais/create" class="button is-link" style="
-          font-weight:700;
-          font-size:1.13rem;
-          border-radius:12px;
-          padding:.7em 2em;
-          box-shadow:0 3px 18px #2563eb66;">
-          Novo Profissional
-        </a>
-        <?php endif; ?>
+        <div style="display: flex; gap: 12px;">
+          <button type="button" class="button is-link" style="font-weight:700;font-size:1.13rem;border-radius:12px;padding:.7em 2em;box-shadow:0 3px 18px #2563eb66;" onclick="printTable()">
+            <span class="icon"><i class="fas fa-print"></i></span>
+            <span>Imprimir</span>
+          </button>
+          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+          <a href="/profissionais/create" class="button is-link" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #2563eb66;">Novo Profissional</a>
+          <?php endif; ?>
+        </div>
       </div>
       <form method="get" action="" autocomplete="off" style="margin-bottom:1.4rem;">
         <div class="columns is-multiline is-vcentered" style="gap:0.8rem 0;">
@@ -70,7 +64,7 @@
           </div>
         </div>
       </form>
-      <div class="table-responsive">
+      <div class="table-responsive" id="table-profissionais">
         <table class="table is-striped is-fullwidth" style="border-radius:10px;overflow:hidden;">
           <thead>
             <tr>
@@ -82,7 +76,7 @@
               <th>Vendedora</th>
               <th>Filial</th>
               <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
-              <th>Ações</th>
+              <th class="col-acoes">Ações</th>
               <?php endif; ?>
             </tr>
           </thead>
@@ -96,7 +90,7 @@
                 <td><?= htmlspecialchars($p['representante_nome']) ?></td>
                 <td><?= htmlspecialchars($p['vendedora_nome']) ?></td>
                 <td><?= htmlspecialchars($p['filial_nome']) ?></td>
-                <td>
+                <td class="col-acoes">
                   <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
                     <a href="/profissionais/edit?id=<?= $p['id'] ?>" class="button is-small is-info" style="font-weight:600;border-radius:7px;margin-right:6px;">
                       Editar
@@ -120,3 +114,35 @@
   </div>
 </section>
 <?php require dirname(__DIR__, 2) . '/views/shared/footer.php'; ?>
+<script>
+  function printTable() {
+    var container = document.getElementById('table-profissionais').cloneNode(true);
+    var theadThs = container.querySelectorAll('thead th');
+    theadThs.forEach(function(th, i){
+      if (th.textContent.trim() === "Ações") {
+        th.parentNode.removeChild(th);
+        container.querySelectorAll('tbody tr').forEach(function(row){
+          if(row.children[i]) row.removeChild(row.children[i]);
+        });
+      }
+    });
+    var style = `
+      <style>
+        body { background: #fff; color: #222; font-family: Montserrat, Arial, sans-serif; margin: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px;}
+        th, td { border: 1px solid #888; padding: 8px; text-align: left; font-size: 1rem; }
+        th { background: #f0f2fa; }
+        h2 { font-family: Montserrat, Arial, sans-serif; }
+      </style>
+    `;
+    var win = window.open('', '', 'width=900,height=600');
+    win.document.write('<html><head><title>Imprimir Profissionais</title>' + style + '</head><body>');
+    win.document.write('<h2>Lista de Profissionais</h2>');
+    win.document.write(container.innerHTML);
+    win.document.write('</body></html>');
+    win.document.close();
+    win.focus();
+    win.print();
+    win.close();
+  }
+</script>
