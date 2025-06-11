@@ -18,15 +18,14 @@
         </div>
         <?php endif; ?>
         <div style="display: flex; gap: 12px;">
+          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
           <button type="button" class="button is-link" style="font-weight:700;font-size:1.13rem;border-radius:12px;padding:.7em 2em;box-shadow:0 3px 18px #2563eb66;" onclick="printTable()">
             <span class="icon"><i class="fas fa-print"></i></span>
             <span>Imprimir</span>
           </button>
-          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
           <a href="/profissionais/create" class="button is-link" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #2563eb66;">Novo Profissional</a>
           <?php endif; ?>
         </div>
-      </div>
       <form method="get" action="" autocomplete="off" style="margin-bottom:1.4rem;">
         <div class="columns is-multiline is-vcentered" style="gap:0.8rem 0;">
           <div class="column is-5">
