@@ -89,6 +89,28 @@
                   <?php if (!empty($_GET['filial'])): ?>
                   <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
                   <?php endif; ?>
+                  <select name="categoria" onchange="this.form.submit()" class="custom-select">
+                    <option value="">Categorias</option>
+                    <?php foreach ($categorias as $cat): ?>
+                    <option value="<?= htmlspecialchars($cat) ?>" <?= (isset($_GET['categoria']) && $_GET['categoria'] == $cat) ? 'selected' : '' ?>>
+                      <?= htmlspecialchars($cat) ?>
+                    </option>
+                    <?php endforeach; ?>
+                  </select>
+                  <?php foreach($_GET as $k => $v) { if ($k !== 'categoria') echo '<input type="hidden" name="'.htmlspecialchars($k).'" value="'.htmlspecialchars($v).'">'; } ?>
+                </form>
+                <?php else: ?>
+                Categoria
+                <?php endif; ?>
+              </th>
+              <th>
+                <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+                <form method="get" style="display:inline;">
+                  <input type="hidden" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>">
+                  <input type="hidden" name="ordenar" value="<?= htmlspecialchars($_GET['ordenar'] ?? '') ?>">
+                  <?php if (!empty($_GET['filial'])): ?>
+                  <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
+                  <?php endif; ?>
                   <select name="vendedora_id" onchange="this.form.submit()" class="custom-select">
                     <option value="">Vendedoras</option>
                     <?php foreach ($vendedoras as $vend): ?>
@@ -109,6 +131,7 @@
                   Vendedoras
                 <?php endif; ?>
               </th>
+              <th>Criação</th>
               <th>Filial</th>
               <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
               <th>Ações</th>
@@ -123,7 +146,16 @@
                 <td><?= htmlspecialchars($p['estado']) ?></td>
                 <td><?= htmlspecialchars($p['registro']) ?></td>
                 <td><?= htmlspecialchars($p['representante_nome']) ?></td>
+                <td><?= htmlspecialchars($p['categoria']) ?></td>
                 <td><?= htmlspecialchars($p['vendedora_nome']) ?></td>
+                <td>
+                  <?php
+                    if (!empty($p['criado_em'])) {
+                        $dt = new DateTime($p['criado_em']);
+                        echo $dt->format('d/m/Y');
+                    }
+                  ?>
+                </td>
                 <td><?= htmlspecialchars($p['filial_nome']) ?></td>
                 <td class="col-acoes">
                   <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
