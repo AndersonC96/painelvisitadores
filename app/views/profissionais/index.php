@@ -61,7 +61,7 @@
                   <?php if (!empty($_GET['filial'])): ?>
                   <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
                   <?php endif; ?>
-                  <select name="representante" onchange="this.form.submit()" class="custom-select">
+                  <select name="representante_id" onchange="this.form.submit()" class="custom-select">
                     <option value="">Representantes</option>
                     <?php foreach ($representantes as $rep): ?>
                     <option value="<?= $rep['id'] ?>" <?= (isset($_GET['representante_id']) && $_GET['representante_id'] == $rep['id']) ? 'selected' : '' ?>>
@@ -69,10 +69,16 @@
                     </option>
                     <?php endforeach; ?>
                   </select>
-                  <?php foreach($_GET as $k=>$v) { if ($k != 'representante') echo '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'">'; } ?>
+                  <?php
+                    foreach($_GET as $k => $v) {
+                      if ($k !== 'representante_id') {
+                        echo '<input type="hidden" name="'.htmlspecialchars($k).'" value="'.htmlspecialchars($v).'">';
+                      }
+                    }
+                  ?>
                 </form>
                 <?php else: ?>
-                  Representantes
+                Representantes
                 <?php endif; ?>
               </th>
               <th>
@@ -83,7 +89,7 @@
                   <?php if (!empty($_GET['filial'])): ?>
                   <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
                   <?php endif; ?>
-                  <select name="vendedora" onchange="this.form.submit()" class="custom-select">
+                  <select name="vendedora_id" onchange="this.form.submit()" class="custom-select">
                     <option value="">Vendedoras</option>
                     <?php foreach ($vendedoras as $vend): ?>
                     <option value="<?= $vend['id'] ?>" <?= (isset($_GET['vendedora_id']) && $_GET['vendedora_id'] == $vend['id']) ? 'selected' : '' ?>>
@@ -91,7 +97,13 @@
                     </option>
                     <?php endforeach; ?>
                   </select>
-                  <?php foreach($_GET as $k=>$v) { if ($k != 'vendedora') echo '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'">'; } ?>
+                  <?php
+                    foreach($_GET as $k => $v) {
+                      if ($k !== 'vendedora_id') {
+                        echo '<input type="hidden" name="'.htmlspecialchars($k).'" value="'.htmlspecialchars($v).'">';
+                      }
+                    }
+                  ?>
                 </form>
                 <?php else: ?>
                   Vendedoras
