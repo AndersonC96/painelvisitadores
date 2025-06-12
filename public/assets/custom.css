@@ -481,3 +481,25 @@ body.light-mode .custom-navbar .logout-btn:hover {
 .navbar-burger { cursor: pointer; }
 .navbar-burger.is-active,
 .navbar-menu.is-active { display: block; }
+.custom-select {
+    background: #151826;
+    color: #fff;
+    border: 2px solid #3c5eff;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.45em 1.8em 0.45em 1em;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 600;
+    appearance: none;
+    outline: none;
+    min-width: 170px;
+    box-shadow: 0 0 0 2px #2222 inset;
+    transition: border 0.18s;
+  }
+  .custom-select:focus {
+    border-color: #2563eb;
+  }
+  .custom-select option {
+    background: #151826;
+    color: #fff;
+  }  
