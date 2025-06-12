@@ -9,24 +9,45 @@
             }
         }
         public function index() {
-            $busca   = $_GET['busca'] ?? '';
-            $ordenar = $_GET['ordenar'] ?? '';
-            $filial  = isset($_GET['filial']) ? (int)$_GET['filial'] : null;
-            $filiais_usuario = [];
+            $busca            = $_GET['busca'] ?? '';
+            $ordenar          = $_GET['ordenar'] ?? '';
+            $representante_id = $_GET['representante_id'] ?? null;
+            $vendedora_id     = $_GET['vendedora_id'] ?? null;
+            $filial           = isset($_GET['filial']) ? (int)$_GET['filial'] : null;
+            $filiais_usuario  = [];
             if (isset($_SESSION['usuario_id'])) {
                 if (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'comum') {
                     $filiais_usuario = \App\Models\Usuario::filiaisDoUsuario($_SESSION['usuario_id']);
                 }
             }
-            if (
-                $_SESSION['usuario_tipo'] === 'admin' ||
-                (is_array($filiais_usuario) && count($filiais_usuario) > 1 && $filial && in_array($filial, $filiais_usuario))
-            ) {
-                $filiais_filtrar = $filial ? [$filial] : ($filiais_usuario ?: null);
-            } else {
-                $filiais_filtrar = $filiais_usuario;
+            $representantes = \App\Models\Profissional::todosRepresentantes();
+            $vendedoras    = \App\Models\Profissional::todasVendedoras();
+            $profissionais = [];
+            if (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'admin') {
+                if ($filial) {
+                    $filiais_filtrar = [$filial];
+                } else {
+                    $filiais_filtrar = null;
+                }
+                $profissionais = \App\Models\Profissional::listar($busca, $ordenar, $filiais_filtrar, $representante_id, $vendedora_id);
             }
-            $profissionais = Profissional::listar($busca, $ordenar, $filiais_filtrar);
+            elseif (isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'comum') {
+                $temFiltro =
+                    !empty($busca) ||
+                    !empty($representante_id) ||
+                    !empty($vendedora_id) ||
+                    !empty($filial);
+                if (
+                    (is_array($filiais_usuario) && count($filiais_usuario) > 1 && $filial && in_array($filial, $filiais_usuario))
+                ) {
+                    $filiais_filtrar = $filial ? [$filial] : $filiais_usuario;
+                } else {
+                    $filiais_filtrar = $filiais_usuario;
+                }
+                if ($temFiltro) {
+                    $profissionais = \App\Models\Profissional::listar($busca, $ordenar, $filiais_filtrar, $representante_id, $vendedora_id);
+                }
+            }
             require dirname(__DIR__) . '/views/profissionais/index.php';
         }
         public function create() {
