@@ -4,45 +4,16 @@
 <section class="section" style="min-height:85vh; display:flex; align-items:flex-start;">
   <div class="container" style="max-width: 1200px; margin:auto;">
     <div class="box" style="border-radius: 18px; box-shadow: 0 6px 36px 0 #2563eb22, 0 2px 12px 0 #1111; padding: 2.2rem 2.3rem 2.1rem 2.3rem; backdrop-filter: blur(1.5px);">
-      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem 1.3rem;">
-        <h1 class="title" style="font-size:2.1rem; font-family:'Montserrat',Segoe UI,sans-serif; font-weight:800; margin-bottom:1.2rem; text-shadow:0 2px 8px #2563eb33;">
-          Profissionais
-        </h1>
-        <?php
-          $pode_ver_todas = $_SESSION['usuario_tipo'] === 'admin' || (is_array($filiais_usuario) && count($filiais_usuario) > 1);
-        ?>
-        <?php if ($pode_ver_todas): ?>
-        <div style="margin-bottom: 1.2rem; display: flex; gap: 12px;">
-          <a href="/profissionais?filial=1" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '1') ? 'is-active' : '' ?>">São Paulo</a>
-          <a href="/profissionais?filial=2" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '2') ? 'is-active' : '' ?>">Brasília</a>
-        </div>
-        <?php endif; ?>
-        <div style="display: flex; gap: 12px;">
-          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
-          <button type="button" class="button is-link" style="font-weight:700;font-size:1.13rem;border-radius:12px;padding:.7em 2em;box-shadow:0 3px 18px #2563eb66;" onclick="printTable()">
-            <span class="icon"><i class="fas fa-print"></i></span>
-            <span>Imprimir</span>
-          </button>
-          <a href="/profissionais/create" class="button is-link" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #2563eb66;">Novo Profissional</a>
-          <?php endif; ?>
-        </div>
-      <form method="get" action="" autocomplete="off" style="margin-bottom:1.4rem;">
-        <div class="columns is-multiline is-vcentered" style="gap:0.8rem 0;">
-          <div class="column is-5">
-            <div class="field has-addons">
-              <div class="control is-expanded">
-                <input class="input" type="text" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>" placeholder="Buscar por nome, CRM, representante ou vendedora..." style="border-radius:10px;">
-              </div>
-              <div class="control">
-                <button class="button is-link" type="submit" style="border-radius:10px;">
-                  <span class="icon"><i class="fas fa-search"></i></span>
-                  <span>Buscar</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="column is-3">
-            <div class="select is-fullwidth">
+      <div style="display: flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:2rem 1.4rem; margin-bottom:1.5rem;">
+        <h1 class="title" style="font-size:2.1rem; font-family:'Montserrat',Segoe UI,sans-serif; font-weight:800; margin-bottom:0; text-shadow:0 2px 8px #2563eb33;">Profissionais</h1>
+        <div style="flex:1; min-width:350px; max-width:560px;">
+          <form method="get" action="" autocomplete="off" style="display:flex;align-items:center;gap:10px;">
+            <input class="input" type="text" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>" placeholder="Buscar por nome, CRM, representante ou vendedora..." style="border-radius:10px; flex:1; min-width:170px;">
+            <button class="button is-link" type="submit" style="border-radius:10px; margin-left:5px;">
+              <span class="icon"><i class="fas fa-search"></i></span>
+              <span>Buscar</span>
+            </button>
+            <div class="select" style="margin-left:10px; min-width:140px;">
               <select name="ordenar" onchange="this.form.submit()">
                 <option value="">Ordenar por...</option>
                 <option value="nome_asc"   <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == 'nome_asc') ? 'selected' : '' ?>>Nome A-Z</option>
@@ -55,14 +26,25 @@
                 <option value="vend_desc"  <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == 'vend_desc') ? 'selected' : '' ?>>Vendedora Z-A</option>
               </select>
             </div>
-          </div>
-          <div class="column is-2">
-            <?php if (!empty($_GET['busca']) || !empty($_GET['ordenar'])): ?>
-              <a href="/profissionais" class="button is-light" style="border-radius:10px;">Limpar filtros</a>
-            <?php endif; ?>
-          </div>
+          </form>
         </div>
-      </form>
+        <div style="display: flex; gap: 14px; flex-wrap:wrap;">
+          <?php
+            $pode_ver_todas = $_SESSION['usuario_tipo'] === 'admin' || (is_array($filiais_usuario) && count($filiais_usuario) > 1);
+          ?>
+          <?php if ($pode_ver_todas): ?>
+            <a href="/profissionais?filial=1" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '1') ? 'is-active' : '' ?>">São Paulo</a>
+            <a href="/profissionais?filial=2" class="button is-link is-light <?= (($_GET['filial'] ?? '') == '2') ? 'is-active' : '' ?>">Brasília</a>
+          <?php endif; ?>
+          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+            <button type="button" class="button is-link" style="font-weight:700;font-size:1.13rem;border-radius:12px;padding:.7em 2em;box-shadow:0 3px 18px #2563eb66;" onclick="printTable()">
+              <span class="icon"><i class="fas fa-print"></i></span>
+              <span>Imprimir</span>
+            </button>
+            <a href="/profissionais/create" class="button is-link" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #2563eb66;">Novo Profissional</a>
+          <?php endif; ?>
+        </div>
+      </div>
       <div class="table-responsive" id="table-profissionais">
         <table class="table is-striped is-fullwidth" style="border-radius:10px;overflow:hidden;">
           <thead>
@@ -71,11 +53,53 @@
               <th>Tipo</th>
               <th>Estado</th>
               <th>Registro</th>
-              <th>Representante</th>
-              <th>Vendedora</th>
+              <th>
+                <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+                <form method="get" style="display:inline;">
+                  <input type="hidden" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>">
+                  <input type="hidden" name="ordenar" value="<?= htmlspecialchars($_GET['ordenar'] ?? '') ?>">
+                  <?php if (!empty($_GET['filial'])): ?>
+                  <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
+                  <?php endif; ?>
+                  <select name="representante" onchange="this.form.submit()" class="custom-select">
+                    <option value="">Representantes</option>
+                    <?php foreach ($representantes as $rep): ?>
+                    <option value="<?= $rep['id'] ?>" <?= (isset($_GET['representante_id']) && $_GET['representante_id'] == $rep['id']) ? 'selected' : '' ?>>
+                      <?= htmlspecialchars($rep['nome']) ?>
+                    </option>
+                    <?php endforeach; ?>
+                  </select>
+                  <?php foreach($_GET as $k=>$v) { if ($k != 'representante') echo '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'">'; } ?>
+                </form>
+                <?php else: ?>
+                  Representantes
+                <?php endif; ?>
+              </th>
+              <th>
+                <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+                <form method="get" style="display:inline;">
+                  <input type="hidden" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>">
+                  <input type="hidden" name="ordenar" value="<?= htmlspecialchars($_GET['ordenar'] ?? '') ?>">
+                  <?php if (!empty($_GET['filial'])): ?>
+                  <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
+                  <?php endif; ?>
+                  <select name="vendedora" onchange="this.form.submit()" class="custom-select">
+                    <option value="">Vendedoras</option>
+                    <?php foreach ($vendedoras as $vend): ?>
+                    <option value="<?= $vend['id'] ?>" <?= (isset($_GET['vendedora_id']) && $_GET['vendedora_id'] == $vend['id']) ? 'selected' : '' ?>>
+                      <?= htmlspecialchars($vend['nome']) ?>
+                    </option>
+                    <?php endforeach; ?>
+                  </select>
+                  <?php foreach($_GET as $k=>$v) { if ($k != 'vendedora') echo '<input type="hidden" name="'.$k.'" value="'.htmlspecialchars($v).'">'; } ?>
+                </form>
+                <?php else: ?>
+                  Vendedoras
+                <?php endif; ?>
+              </th>
               <th>Filial</th>
               <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
-              <th class="col-acoes">Ações</th>
+              <th>Ações</th>
               <?php endif; ?>
             </tr>
           </thead>
@@ -103,7 +127,10 @@
             <?php endforeach; ?>
             <?php if (empty($profissionais)): ?>
               <tr>
-                <td colspan="9" style="text-align:center;opacity:0.7;">Nenhum profissional encontrado.</td>
+                <td colspan="9" style="text-align:center; padding: 1.5rem; opacity: 0.8; font-style: italic; color: #555;">
+                  🔍 Nenhum profissional encontrado.<br>
+                  Inicie uma busca para visualizar os resultados.
+                </td>
               </tr>
             <?php endif; ?>
           </tbody>
@@ -117,7 +144,7 @@
   function printTable() {
     var container = document.getElementById('table-profissionais').cloneNode(true);
     var theadThs = container.querySelectorAll('thead th');
-    theadThs.forEach(function(th, i){
+    theadThs.forEach(function(th, i) {
       if (th.textContent.trim() === "Ações") {
         th.parentNode.removeChild(th);
         container.querySelectorAll('tbody tr').forEach(function(row){
