@@ -3,10 +3,23 @@
     use App\Core\Database;
     use PDO;
     class Profissional {
-        /*public static function listar($busca = '', $ordenar = '') {
+        public static function listar($busca = '', $ordenar = '', $filiais_usuario = null, $representante_id = null, $vendedora_id = null) {
             $pdo = Database::getConnection();
             $where = ["p.oculto != 1"];
             $params = [];
+            if ($representante_id) {
+                $where[] = "p.representante_id = ?";
+                $params[] = $representante_id;
+            }
+            if ($vendedora_id) {
+                $where[] = "p.vendedora_id = ?";
+                $params[] = $vendedora_id;
+            }
+            if ($filiais_usuario && count($filiais_usuario)) {
+                $placeholders = implode(',', array_fill(0, count($filiais_usuario), '?'));
+                $where[] = "p.filial_id IN ($placeholders)";
+                $params = array_merge($params, $filiais_usuario);
+            }
             if ($busca) {
                 $where[] = "(p.nome_profissional LIKE ? OR p.registro LIKE ? OR r.nome LIKE ? OR v.nome LIKE ?)";
                 $params[] = "%$busca%";
@@ -33,56 +46,7 @@
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }*/
-        public static function listar($busca = '', $ordenar = '', $filiais_usuario = null) {
-            $pdo = Database::getConnection();
-            $where = ["p.oculto != 1"];
-            $params = [];
-        
-            // Se for usuário comum, filtra pelas filiais permitidas
-            if ($filiais_usuario && count($filiais_usuario)) {
-                $placeholders = implode(',', array_fill(0, count($filiais_usuario), '?'));
-                $where[] = "p.filial_id IN ($placeholders)";
-                $params = array_merge($params, $filiais_usuario);
-            }
-        
-            // Busca por nome, CRM, representante ou vendedora
-            if ($busca) {
-                $where[] = "(p.nome_profissional LIKE ? OR p.registro LIKE ? OR r.nome LIKE ? OR v.nome LIKE ?)";
-                $params[] = "%$busca%";
-                $params[] = "%$busca%";
-                $params[] = "%$busca%";
-                $params[] = "%$busca%";
-            }
-        
-            // Ordenação
-            $order = "p.nome_profissional ASC";
-            switch ($ordenar) {
-                case 'nome_asc':   $order = "p.nome_profissional ASC"; break;
-                case 'nome_desc':  $order = "p.nome_profissional DESC"; break;
-                case 'rep_asc':    $order = "r.nome ASC"; break;
-                case 'rep_desc':   $order = "r.nome DESC"; break;
-                case 'uf_asc':     $order = "p.estado ASC"; break;
-                case 'uf_desc':    $order = "p.estado DESC"; break;
-                case 'vend_asc':   $order = "v.nome ASC"; break;
-                case 'vend_desc':  $order = "v.nome DESC"; break;
-            }
-        
-            $sql = "SELECT p.*, r.nome as representante_nome, v.nome as vendedora_nome, f.nome as filial_nome 
-                    FROM profissionais p 
-                    LEFT JOIN representantes r ON p.representante_id = r.id 
-                    LEFT JOIN vendedoras v ON p.vendedora_id = v.id 
-                    LEFT JOIN filiais f ON p.filial_id = f.id";
-            if ($where) {
-                $sql .= " WHERE " . implode(' AND ', $where);
-            }
-            $sql .= " ORDER BY $order";
-        
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-        
         public static function buscarPorId($id) {
             $pdo = Database::getConnection();
             $sql = "SELECT * FROM profissionais WHERE id = ?";
