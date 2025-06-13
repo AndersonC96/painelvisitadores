@@ -81,28 +81,7 @@
                 Representantes
                 <?php endif; ?>
               </th>
-              <th>
-                <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
-                <form method="get" style="display:inline;">
-                  <input type="hidden" name="busca" value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>">
-                  <input type="hidden" name="ordenar" value="<?= htmlspecialchars($_GET['ordenar'] ?? '') ?>">
-                  <?php if (!empty($_GET['filial'])): ?>
-                  <input type="hidden" name="filial" value="<?= htmlspecialchars($_GET['filial']) ?>">
-                  <?php endif; ?>
-                  <select name="categoria" onchange="this.form.submit()" class="custom-select">
-                    <option value="">Categorias</option>
-                    <?php foreach ($categorias as $cat): ?>
-                    <option value="<?= htmlspecialchars($cat) ?>" <?= (isset($_GET['categoria']) && $_GET['categoria'] == $cat) ? 'selected' : '' ?>>
-                      <?= htmlspecialchars($cat) ?>
-                    </option>
-                    <?php endforeach; ?>
-                  </select>
-                  <?php foreach($_GET as $k => $v) { if ($k !== 'categoria') echo '<input type="hidden" name="'.htmlspecialchars($k).'" value="'.htmlspecialchars($v).'">'; } ?>
-                </form>
-                <?php else: ?>
-                Categoria
-                <?php endif; ?>
-              </th>
+              <th>Categoria</th>
               <th>
                 <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
                 <form method="get" style="display:inline;">
