@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="table-responsive" id="table-profissionais">
-        <table class="table is-striped is-fullwidth" style="border-radius:10px;overflow:hidden;">
+        <table class="table is-striped is-fullwidth" style="border-radius:10px; width:100%;">
           <thead>
             <tr>
               <th>Nome</th>
