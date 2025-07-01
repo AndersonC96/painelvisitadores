@@ -1,6 +1,7 @@
 <?php
     namespace App\Controllers;
     use App\Models\Profissional;
+    use App\Models\Auditoria;
     class ProfissionalController {
         private function checkAdmin() {
             if (!isset($_SESSION['usuario_tipo']) || $_SESSION['usuario_tipo'] !== 'admin') {
@@ -69,7 +70,19 @@
                 'vendedora_id' => $_POST['vendedora_id'],
                 'filial_id' => $_POST['filial_id']
             ];
-            Profissional::criar($dados);
+            $result = Profissional::criar($dados);
+            if ($result) {
+                $pdo = \App\Core\Database::getConnection();
+                $novo_profissional_id = $pdo->lastInsertId();
+                Auditoria::registrar(
+                    $_SESSION['usuario_id'],
+                    'criar',
+                    'profissional',
+                    $novo_profissional_id,
+                    null,
+                    $dados
+                );
+            }
             $_SESSION['mensagem'] = 'Profissional cadastrado com sucesso!';
             $_SESSION['mensagem_tipo'] = 'is-success';
             header('Location: /profissionais');
@@ -98,7 +111,16 @@
                 'vendedora_id' => $_POST['vendedora_id'],
                 'filial_id' => $_POST['filial_id']
             ];
+            $profissional_antes = Profissional::buscarPorId($id);
             Profissional::atualizar($id, $dados);
+            Auditoria::registrar(
+                $_SESSION['usuario_id'],
+                'editar',
+                'profissional',
+                $id,
+                $profissional_antes,
+                $dados
+            );
             $_SESSION['mensagem'] = 'Profissional atualizado com sucesso!';
             $_SESSION['mensagem_tipo'] = 'is-success';
             header('Location: /profissionais');
@@ -108,7 +130,16 @@
             $this->checkAdmin();
             $id = $_GET['id'] ?? null;
             if ($id) {
+                $profissional_antes = Profissional::buscarPorId($id);
                 Profissional::ocultar($id);
+                Auditoria::registrar(
+                    $_SESSION['usuario_id'],
+                    'excluir',
+                    'profissional',
+                    $id,
+                    $profissional_antes,
+                    null
+                );
                 $_SESSION['mensagem'] = 'Profissional removido com sucesso!';
             }
             header('Location: /profissionais');
