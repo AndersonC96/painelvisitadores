@@ -145,4 +145,55 @@
             header('Location: /profissionais');
             exit;
         }
+        public function exportarExcel() {
+            $this->checkAdmin();
+            // Pega os filtros, igual ao index()
+            $busca            = $_GET['busca'] ?? '';
+            $ordenar          = $_GET['ordenar'] ?? '';
+            $representante_id = $_GET['representante_id'] ?? null;
+            $vendedora_id     = $_GET['vendedora_id'] ?? null;
+            $filial           = isset($_GET['filial']) ? (int)$_GET['filial'] : null;
+            // Sem limitação por filial para admin
+            $filiais_filtrar = $filial ? [$filial] : null;
+            $profissionais = \App\Models\Profissional::listar($busca, $ordenar, $filiais_filtrar, $representante_id, $vendedora_id);
+            // Começa exportação usando PhpSpreadsheet
+            require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
+
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            // Cabeçalhos
+            $headers = ['Nome', 'Tipo', 'Estado', 'Registro', 'Categoria','Representante', 'Vendedora', 'Criação', 'Filial'];
+            $sheet->fromArray($headers, null, 'A1');
+            // Conteúdo
+            $row = 2;
+            foreach ($profissionais as $p) {
+                $sheet->setCellValue("A$row", $p['nome_profissional']);
+                $sheet->setCellValue("B$row", $p['tipo']);
+                $sheet->setCellValue("C$row", $p['estado']);
+                $sheet->setCellValue("D$row", $p['registro']);
+                $sheet->setCellValue("E$row", $p['categoria']);
+                $sheet->setCellValue("F$row", $p['representante_nome']);
+                $sheet->setCellValue("G$row", $p['vendedora_nome']);
+                // Criação em formato brasileiro
+                $dataFormatada = '';
+                if (!empty($p['criado_em'])) {
+                    $dt = new \DateTime($p['criado_em']);
+                    $dataFormatada = $dt->format('d/m/Y');
+                }
+                $sheet->setCellValue("H$row", $dataFormatada);
+                $sheet->setCellValue("I$row", $p['filial_nome']);
+                $row++;
+            }
+            // Ajusta largura automática das colunas
+            foreach(range('A','I') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+            // Configura cabeçalhos HTTP para download do Excel
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="profissionais.xlsx"');
+            header('Cache-Control: max-age=0');
+            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+            $writer->save('php://output');
+            exit;
+        }
     }
