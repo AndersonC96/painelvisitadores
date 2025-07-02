@@ -41,6 +41,7 @@
     $router->get('/profissionais/edit', 'ProfissionalController@edit');
     $router->post('/profissionais/update', 'ProfissionalController@update');
     $router->get('/profissionais/delete', 'ProfissionalController@delete');
+    $router->get('/profissionais/exportar', 'ProfissionalController@exportarExcel');
     // ---- Proteção das rotas internas ----
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = '/' . trim($uri, '/'); // Deixa no formato '/rota'
