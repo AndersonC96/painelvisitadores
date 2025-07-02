@@ -43,6 +43,12 @@
             </button>
             <a href="/profissionais/create" class="button is-link" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #2563eb66;">Novo Profissional</a>
           <?php endif; ?>
+          <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+            <a href="/profissionais/exportar?<?= http_build_query($_GET) ?>"class="button is-success" style="font-weight:700; font-size:1.13rem; border-radius:12px; padding:.7em 2em; box-shadow:0 3px 18px #43eb2577;">
+              <span class="icon"><i class="fas fa-file-excel"></i></span>
+              <span>Exportar Excel</span>
+            </a>
+          <?php endif; ?>
         </div>
       </div>
       <div class="table-responsive" id="table-profissionais">
@@ -162,7 +168,7 @@
     </div>
   </div>
 </section>
-<?php require dirname(__DIR__, 2) . '/views/shared/footer.php'; ?>
+<!--<?php require dirname(__DIR__, 2) . '/views/shared/footer.php'; ?>-->
 <script>
   function printTable() {
     var container = document.getElementById('table-profissionais').cloneNode(true);
